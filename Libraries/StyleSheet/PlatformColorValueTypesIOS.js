@@ -13,6 +13,7 @@ import type {ColorValue} from './StyleSheet';
 export type DynamicColorIOSTuple = {
   light: ColorValue,
   dark: ColorValue,
+  elevatedDark: ColorValue,
   highContrastLight?: ColorValue,
   highContrastDark?: ColorValue,
 };

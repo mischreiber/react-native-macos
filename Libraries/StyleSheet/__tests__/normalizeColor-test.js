@@ -45,6 +45,7 @@ describe('iOS', () => {
       const color = DynamicColorIOS({
         light: 'black',
         dark: 'white',
+        elevatedDark: 'green',
         highContrastLight: 'red',
         highContrastDark: 'blue',
       });
@@ -53,6 +54,7 @@ describe('iOS', () => {
         dynamic: {
           light: 'black',
           dark: 'white',
+          elevatedDark: 'green',
           highContrastLight: 'red',
           highContrastDark: 'blue',
         },

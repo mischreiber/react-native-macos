@@ -1050,6 +1050,8 @@ static NSColor *RCTColorWithSystemEffect(NSColor* color, NSString *systemEffectS
       RCTUIColor *lightColor = [RCTConvert UIColor:light];
       id dark = [appearances objectForKey:@"dark"];
       RCTUIColor *darkColor = [RCTConvert UIColor:dark]; // TODO(macOS GH#750)
+      id darkElevated = [appearances objectForKey:@"darkElevated"]; // TODO(macOS GH#750)
+      RCTUIColor *darkElevatedColor = [RCTConvert UIColor:darkElevated]; // TODO(macOS GH#750)
       id highContrastLight = [appearances objectForKey:@"highContrastLight"];
       RCTUIColor *highContrastLightColor = [RCTConvert UIColor:highContrastLight]; // TODO(macOS GH#750)
       id highContrastDark = [appearances objectForKey:@"highContrastDark"];
@@ -1087,6 +1089,10 @@ static NSColor *RCTColorWithSystemEffect(NSColor* color, NSString *systemEffectS
             if (collection.userInterfaceStyle == UIUserInterfaceStyleDark) {
               if (collection.accessibilityContrast == UIAccessibilityContrastHigh && highContrastDarkColor != nil) {
                 return highContrastDarkColor;
+              // [TODO(macOS GH#750)
+              } else if (collection.userInterfaceLevel == UIUserInterfaceLevelElevated) {
+                return darkElevatedColor;
+              // [TODO(macOS GH#750)
               } else {
                 return darkColor;
               }

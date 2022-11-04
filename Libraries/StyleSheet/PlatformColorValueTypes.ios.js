@@ -16,6 +16,7 @@ export opaque type NativeColorValue = {
   dynamic?: {
     light: ?(ColorValue | ProcessedColorValue),
     dark: ?(ColorValue | ProcessedColorValue),
+    elevatedDark: ?(ColorValue | ProcessedColorValue),
     highContrastLight?: ?(ColorValue | ProcessedColorValue),
     highContrastDark?: ?(ColorValue | ProcessedColorValue),
   },
@@ -28,6 +29,7 @@ export const PlatformColor = (...names: Array<string>): ColorValue => {
 export type DynamicColorIOSTuplePrivate = {
   light: ColorValue,
   dark: ColorValue,
+  elevatedDark: ColorValue,
   highContrastLight?: ColorValue,
   highContrastDark?: ColorValue,
 };
@@ -39,6 +41,7 @@ export const DynamicColorIOSPrivate = (
     dynamic: {
       light: tuple.light,
       dark: tuple.dark,
+      elevatedDark: tuple.elevatedDark,
       highContrastLight: tuple.highContrastLight,
       highContrastDark: tuple.highContrastDark,
     },
@@ -60,6 +63,7 @@ export const normalizeColorObject = (
       dynamic: {
         light: normalizeColor(dynamic.light),
         dark: normalizeColor(dynamic.dark),
+        elevatedDark: normalizeColor(dynamic.elevatedDark),
         highContrastLight: normalizeColor(dynamic.highContrastLight),
         highContrastDark: normalizeColor(dynamic.highContrastDark),
       },
@@ -80,6 +84,7 @@ export const processColorObject = (
       dynamic: {
         light: processColor(dynamic.light),
         dark: processColor(dynamic.dark),
+        elevatedDark: processColor(dynamic.elevatedDark),
         highContrastLight: processColor(dynamic.highContrastLight),
         highContrastDark: processColor(dynamic.highContrastDark),
       },
