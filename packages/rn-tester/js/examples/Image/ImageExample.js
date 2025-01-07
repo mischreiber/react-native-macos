@@ -20,7 +20,7 @@ const {
   Image,
   ImageBackground,
   StyleSheet,
-  Switch,
+  Switch, // [macOS]
   Text,
   View,
 } = require('react-native');
@@ -851,10 +851,12 @@ const styles = StyleSheet.create({
     experimental_boxShadow: '80px 0px 10px 0px hotpink',
     transform: 'rotate(-15deg)',
   },
+  // [macOS
   switch: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  // macOS]
 });
 
 exports.displayName = (undefined: ?string);
