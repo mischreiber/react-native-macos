@@ -221,13 +221,6 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame : (CGRect)frame)
   _imageView.layer.magnificationFilter = kCAFilterTrilinear;
 
   _imageView.image = image;
-
-  #if TARGET_OS_OSX // [macOS
-    // Attempt to set accessibility properties on image.
-    self.reactAccessibilityElement.accessibilityElement = NO;
-    self.reactAccessibilityElement.accessibilityLabel = [[NSString alloc]initWithCString:"test a11y label" encoding:NSUTF8StringEncoding];
-    printf("testing");
-  #endif // macOS]
 }
 
 - (void)setImage:(UIImage *)image
@@ -635,6 +628,11 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame : (CGRect)frame)
 {
   return _imageView;
 }
+
+- (NSCell *)reactAccessibilityElementCell
+  {
+    return _imageView.cell;
+  }
 
 - (NSColor *)tintColor
 {
