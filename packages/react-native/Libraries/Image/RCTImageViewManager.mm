@@ -30,6 +30,7 @@ RCT_EXPORT_MODULE()
   return [[RCTImageView alloc] initWithBridge:self.bridge];
 }
 
+RCT_REMAP_VIEW_PROPERTY(accessible, reactAccessibilityElementCell.accessibilityElement, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(blurRadius, CGFloat)
 RCT_EXPORT_VIEW_PROPERTY(capInsets, UIEdgeInsets)
 RCT_REMAP_VIEW_PROPERTY(defaultSource, defaultImage, UIImage)
