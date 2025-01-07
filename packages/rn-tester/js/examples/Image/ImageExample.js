@@ -1532,6 +1532,7 @@ exports.examples = [
       );
     },
   },
+  // [macOS add switch to toggle the value of the accessible prop
   {
     title: 'Accessibility',
     description:
@@ -1552,6 +1553,7 @@ exports.examples = [
       );
     }
   },
+  // macOS]
   {
     title: 'Accessibility Label',
     description:
