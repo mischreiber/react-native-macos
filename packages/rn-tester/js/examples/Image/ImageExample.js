@@ -1536,14 +1536,6 @@ exports.examples = [
     },
   },
   {
-    title: 'Accessibility Remove From Tree',
-    description:
-      ('If the `accessible` (boolean) prop is set to False, the image will be removed from the accessbility tree.': string),
-    render: function (): React.Node {
-      return <Image accessible={false} source={fullImage} style={styles.base} />;
-    },
-  },
-  {
     title: 'Accessibility Label',
     description:
       ('When an element is marked as accessibile (using the accessibility prop), it is good practice to set an accessibilityLabel on the image to provide a description of the element to people who use VoiceOver. VoiceOver will read this string when people select this element.': string),
