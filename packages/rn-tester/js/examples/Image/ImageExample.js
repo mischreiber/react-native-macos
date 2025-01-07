@@ -865,7 +865,7 @@ exports.examples = [
     description: ('If the `source` prop `uri` property is prefixed with ' +
       '"http", then it will be downloaded from the network.': string),
     render: function (): React.Node {
-      return <Image accessibilityLabel={'cat'} source={fullImage} style={styles.base} />;
+      return <Image source={fullImage} style={styles.base} />;
     },
   },
   {
@@ -873,7 +873,7 @@ exports.examples = [
     description: ('If the `src` prop is defined with ' +
       '"http", then it will be downloaded from the network.': string),
     render: function (): React.Node {
-      return <Image accessible={false} accessibilityLabel={'cat'} src={fullImage.uri} style={styles.base} />;
+      return <Image src={fullImage.uri} style={styles.base} />;
     },
   },
   {
