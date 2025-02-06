@@ -77,7 +77,7 @@ CGFloat UIImageGetScale(NSImage *image)
   return 1.0;
 }
 
-CGImageRef UIImageGetCGImageRef(NSImage *image)
+CGImageRef __nullable UIImageGetCGImageRef(NSImage *image)
 {
   return [image CGImageForProposedRect:NULL context:NULL hints:NULL];
 }
@@ -132,23 +132,23 @@ CGPathRef UIBezierPathCreateCGPathRef(UIBezierPath *bezierPath)
     {
       switch ([bezierPath elementAtIndex:i associatedPoints:points])
       {
-        case NSMoveToBezierPathElement:
+        case NSBezierPathElementMoveTo:
           CGPathMoveToPoint(path, NULL, points[0].x, points[0].y);
           break;
           
-        case NSLineToBezierPathElement:
+        case NSBezierPathElementLineTo:
           CGPathAddLineToPoint(path, NULL, points[0].x, points[0].y);
           didClosePath = NO;
           break;
           
-        case NSCurveToBezierPathElement:
+        case NSBezierPathElementCurveTo:
           CGPathAddCurveToPoint(path, NULL, points[0].x, points[0].y,
                                 points[1].x, points[1].y,
                                 points[2].x, points[2].y);
           didClosePath = NO;
           break;
           
-        case NSClosePathBezierPathElement:
+        case NSBezierPathElementClosePath:
           CGPathCloseSubpath(path);
           didClosePath = YES;
           break;
@@ -364,7 +364,7 @@ static RCTUIView *RCTUIViewCommonInit(RCTUIView *self)
 - (void)sendMouseEventWithBlock:(RCTDirectEventBlock)block
                    locationInfo:(NSDictionary*)locationInfo
                   modifierFlags:(NSEventModifierFlags)modifierFlags
-                 additionalData:(NSDictionary*)additionalData
+                 additionalData:(NSDictionary* __nullable)additionalData
 {
   if (block == nil) {
     return;
@@ -781,6 +781,11 @@ BOOL RCTUIViewSetClipsToBounds(RCTPlatformView *view)
   return self;
 }
 
+- (void)setText:(NSString *)text
+{
+  [self setStringValue:text];
+}
+
 @end
 
 @implementation RCTUISwitch
@@ -1016,6 +1021,13 @@ BOOL RCTUIViewSetClipsToBounds(RCTPlatformView *view)
 {
     CGSize _size;
     RCTUIGraphicsImageRendererFormat *_format;
+}
+
+- (nonnull instancetype)initWithSize:(CGSize)size {
+    if (self = [super init]) {
+        self->_size = size;
+    }
+    return self;
 }
 
 - (nonnull instancetype)initWithSize:(CGSize)size format:(nonnull RCTUIGraphicsImageRendererFormat *)format {

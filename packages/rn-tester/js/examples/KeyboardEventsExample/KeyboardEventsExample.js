@@ -15,8 +15,7 @@ import type {KeyEvent} from 'react-native/Libraries/Types/CoreEventTypes';
 const React = require('react');
 const ReactNative = require('react-native');
 
-const {Button, ScrollView, StyleSheet, Switch, Text, TextInput, View} =
-  ReactNative;
+const {Button, ScrollView, StyleSheet, Text, TextInput, View} = ReactNative;
 
 function KeyEventExample(): React.Node {
   // $FlowFixMe[missing-empty-array-annot]
