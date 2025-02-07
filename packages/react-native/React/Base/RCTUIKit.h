@@ -64,7 +64,6 @@ UIKIT_STATIC_INLINE CGPathRef UIBezierPathCreateCGPathRef(UIBezierPath *path)
 #define RCTPlatformView UIView
 #define RCTUIView UIView
 #define RCTUIScrollView UIScrollView
-#define RCTPlatformWindow UIWindow
 
 UIKIT_STATIC_INLINE RCTPlatformView *RCTUIViewHitTestWithEvent(RCTPlatformView *view, CGPoint point, __unused UIEvent *__nullable event)
 {
@@ -218,6 +217,7 @@ typedef NS_ENUM(NSInteger, UIViewContentMode) {
   UIViewContentModeScaleAspectFit  = NSViewLayerContentsPlacementScaleProportionallyToFit,
   UIViewContentModeScaleToFill     = NSViewLayerContentsPlacementScaleAxesIndependently,
   UIViewContentModeCenter          = NSViewLayerContentsPlacementCenter,
+  UIViewContentModeTopLeft         = NSViewLayerContentsPlacementTopLeft,
 };
 
 // UIInterface.h/NSUserInterfaceLayout.h
@@ -378,8 +378,6 @@ CGPathRef UIBezierPathCreateCGPathRef(UIBezierPath *path);
 // UIView
 #define RCTPlatformView NSView
 
-#define RCTPlatformWindow NSWindow
-
 @interface RCTUIView : RCTPlatformView
 
 @property (nonatomic, readonly) BOOL canBecomeFirstResponder;
@@ -410,7 +408,7 @@ CGPathRef UIBezierPathCreateCGPathRef(UIBezierPath *path);
 - (void)sendMouseEventWithBlock:(RCTDirectEventBlock)block
                    locationInfo:(NSDictionary*)locationInfo
                   modifierFlags:(NSEventModifierFlags)modifierFlags
-                 additionalData:(NSDictionary*)additionalData;
+                 additionalData:(NSDictionary* __nullable)additionalData;
 
 // FUTURE: When Xcode 14 is no longer supported (CI is building with Xcode 15), we can remove this override since it's now declared on NSView
 @property BOOL clipsToBounds;
@@ -524,12 +522,12 @@ NS_ASSUME_NONNULL_END
 
 #if !TARGET_OS_OSX
 typedef UIApplication RCTUIApplication;
-typedef UIWindow RCTUIWindow;
-typedef UIViewController RCTUIViewController;
+typedef UIWindow RCTPlatformWindow;
+typedef UIViewController RCTPlatformViewController;
 #else
 typedef NSApplication RCTUIApplication;
-typedef NSWindow RCTUIWindow;
-typedef NSViewController RCTUIViewController;
+typedef NSWindow RCTPlatformWindow;
+typedef NSViewController RCTPlatformViewController;
 #endif
 
 //
@@ -660,6 +658,7 @@ typedef void (^RCTUIGraphicsImageDrawingActions)(RCTUIGraphicsImageRendererConte
 
 @interface RCTUIGraphicsImageRenderer : NSObject
 
+- (instancetype)initWithSize:(CGSize)size;
 - (instancetype)initWithSize:(CGSize)size format:(RCTUIGraphicsImageRendererFormat *)format;
 - (NSImage *)imageWithActions:(NS_NOESCAPE RCTUIGraphicsImageDrawingActions)actions;
 

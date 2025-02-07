@@ -8,7 +8,7 @@
  * @format
  */
 
-import type {HostComponent} from '../../Renderer/shims/ReactNativeTypes';
+import type {HostInstance} from '../../Renderer/shims/ReactNativeTypes';
 import type {____TextStyle_Internal as TextStyleInternal} from '../../StyleSheet/StyleSheetTypes';
 import type {
   PressEvent,
@@ -37,10 +37,10 @@ import * as React from 'react';
 import {useCallback, useLayoutEffect, useRef, useState} from 'react';
 
 type ReactRefSetter<T> = {current: null | T, ...} | ((ref: null | T) => mixed);
-type TextInputInstance = React.ElementRef<HostComponent<mixed>> & {
+type TextInputInstance = HostInstance & {
   +clear: () => void,
   +isFocused: () => boolean,
-  +getNativeRef: () => ?React.ElementRef<HostComponent<mixed>>,
+  +getNativeRef: () => ?HostInstance,
   +setSelection: (start: number, end: number) => void,
   +setGhostText: (ghostText: ?string) => void, // [macOS]
 };
@@ -291,7 +291,12 @@ export type TextContentType =
   | 'birthdate'
   | 'birthdateDay'
   | 'birthdateMonth'
-  | 'birthdateYear';
+  | 'birthdateYear'
+  | 'cellularEID'
+  | 'cellularIMEI'
+  | 'dateTime'
+  | 'flightNumber'
+  | 'shipmentTrackingNumber';
 
 export type enterKeyHintType =
   // Cross Platform
@@ -359,6 +364,12 @@ type IOSProps = $ReadOnly<{|
   inputAccessoryViewID?: ?string,
 
   /**
+   * An optional label that overrides the default input accessory view button label.
+   * @platform ios
+   */
+  inputAccessoryViewButtonLabel?: ?string,
+
+  /**
    * Determines the color of the keyboard.
    * @platform ios
    */
@@ -410,6 +421,19 @@ type IOSProps = $ReadOnly<{|
    * @platform ios macos
    */
   lineBreakStrategyIOS?: ?('none' | 'standard' | 'hangul-word' | 'push-out'),
+
+  /**
+   * Set line break mode on iOS.
+   * @platform ios
+   */
+  lineBreakModeIOS?: ?(
+    | 'wordWrapping'
+    | 'char'
+    | 'clip'
+    | 'head'
+    | 'middle'
+    | 'tail'
+  ),
 
   /**
    * If `false`, the iOS system will not insert an extra space after a paste operation
@@ -1135,7 +1159,7 @@ function useTextInputStateSynchronization_STATE({
   props: Props,
   mostRecentEventCount: number,
   selection: ?Selection,
-  inputRef: React.RefObject<null | React.ElementRef<HostComponent<mixed>>>,
+  inputRef: React.RefObject<null | HostInstance>,
   text: string,
   viewCommands: ViewCommands,
 }): {
@@ -1216,7 +1240,7 @@ function useTextInputStateSynchronization_REFS({
   props: Props,
   mostRecentEventCount: number,
   selection: ?Selection,
-  inputRef: React.RefObject<null | React.ElementRef<HostComponent<mixed>>>,
+  inputRef: React.RefObject<null | HostInstance>,
   text: string,
   viewCommands: ViewCommands,
 }): {
@@ -1429,7 +1453,7 @@ function InternalTextInput(props: Props): React.Node {
     ...otherProps
   } = props;
 
-  const inputRef = useRef<null | React.ElementRef<HostComponent<mixed>>>(null);
+  const inputRef = useRef<null | HostInstance>(null);
 
   const selection: ?Selection =
     propsSelection == null
@@ -1527,7 +1551,7 @@ function InternalTextInput(props: Props): React.Node {
           isFocused(): boolean {
             return TextInputState.currentlyFocusedInput() === inputRef.current;
           },
-          getNativeRef(): ?React.ElementRef<HostComponent<mixed>> {
+          getNativeRef(): ?HostInstance {
             return inputRef.current;
           },
           setSelection(start: number, end: number): void {
@@ -1686,7 +1710,7 @@ function InternalTextInput(props: Props): React.Node {
 
   // TextInput handles onBlur and onFocus events
   // so omitting onBlur and onFocus pressability handlers here.
-  const {onBlur, onFocus, ...eventHandlers} = usePressability(config) || {};
+  const {onBlur, onFocus, ...eventHandlers} = usePressability(config);
 
   let _accessibilityState;
   if (
@@ -1944,11 +1968,11 @@ const autoCompleteWebToTextContentTypeMap = {
   username: 'username',
 };
 
-const ExportedForwardRef: React.AbstractComponent<
-  React.ElementConfig<typeof InternalTextInput>,
-  TextInputInstance,
+const ExportedForwardRef: component(
+  ref: React.RefSetter<TextInputInstance>,
+  ...props: React.ElementConfig<typeof InternalTextInput>
   // $FlowFixMe[incompatible-call]
-> = React.forwardRef(function TextInput(
+) = React.forwardRef(function TextInput(
   {
     allowFontScaling = true,
     rejectResponderTermination = true,
